@@ -2,10 +2,11 @@
 #include <vector>
 #include <list>
 #include <string>
+#include "User.cpp"
 
 class HashTable {
 private:
-    std::vector<std::list<std::pair<std::string, int>>> table;
+    std::vector<std::list<std::pair<std::string, User>>> table;
     size_t table_size;
 
     size_t hash(const std::string& key) const {
@@ -21,29 +22,29 @@ public:
         table.resize(size);
     }
 
-    void insert(const std::string& key, int value) {
+    void insert(std::string key, User usuario) {
         size_t index = hash(key);
         for (auto& pair : table[index]) {
             if (pair.first == key) {
-                pair.second = value;
+                pair.second = usuario;
                 return;
             }
         }
-        table[index].emplace_back(key, value);
+        table[index].emplace_back(key, usuario);
     }
 
-    bool search(const std::string& key, int& value) const {
+    bool search(std::string key, User& usuario) const {
         size_t index = hash(key);
         for (const auto& pair : table[index]) {
             if (pair.first == key) {
-                value = pair.second;
+                usuario = pair.second;
                 return true;
             }
         }
         return false;
     }
 
-    bool remove(const std::string& key) {
+    bool remove(std::string key) {
         size_t index = hash(key);
         for (auto it = table[index].begin(); it != table[index].end(); ++it) {
             if (it->first == key) {
@@ -58,21 +59,25 @@ public:
 int main() {
     HashTable ht(10);
 
-    ht.insert("apple", 1);
-    ht.insert("banana", 2);
-    ht.insert("orange", 3);
+    User user1 = {"University1", 10, "User1", 100, 10, 10, "2022-01-01"};
+    User user2 = {"University2", 20, "User2", 200, 20, 20, "2022-02-02"};
+    User user3 = {"University3", 30, "User3", 300, 30, 30, "2022-03-03"};
 
-    int value;
-    if (ht.search("banana", value)) {
-        std::cout << "Found: " << value << std::endl;
+    ht.insert(user1.username, user1);
+    ht.insert(user2.username, user2);
+    ht.insert(user3.username, user3);
+
+    User usuario;
+    if (ht.search("User1", usuario)) {
+        std::cout << "Found: " << usuario.username << std::endl;
     } else {
         std::cout << "Not found" << std::endl;
     }
 
-    ht.remove("banana");
+    ht.remove("User1");
 
-    if (ht.search("banana", value)) {
-        std::cout << "Found: " << value << std::endl;
+    if (ht.search("User1", usuario)) {
+        std::cout << "Found: " << usuario.username << std::endl;
     } else {
         std::cout << "Not found" << std::endl;
     }
