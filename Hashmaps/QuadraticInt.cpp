@@ -5,7 +5,7 @@
 #include <chrono>
 #include "User.cpp"
 
-class HashQuadraticInt {
+class HashQuadInt {
 private:
     std::vector<std::pair<int,User>> table;
     size_t table_size;
@@ -15,7 +15,7 @@ private:
     }
 
 public:
-    HashQuadraticInt(size_t size) : table_size(size) {
+    HashQuadInt(size_t size) : table_size(size) {
         table.resize(size);
     }
 
@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
     int n = atoi(argv[1]); // Almacenará la cantidad de elementos
-    HashQuadraticInt hashTable(n); // Crearemos una tabla de hash con n elementos
+    HashQuadInt hashTable(n); // Crearemos una tabla de hash con n elementos
         
     // Creamos n usuarios y los insertamos en la tabla hash
     auto start = std::chrono::high_resolution_clock::now();
