@@ -3,7 +3,7 @@
 #include <list>
 #include <utility>
 #include <chrono>
-#include "User.cpp"
+#include "User.h"
 /**
  * @class HashAbiertoInt
  * @brief Una implementacion de una tabla hash, usando hasing abierto con una key entera.

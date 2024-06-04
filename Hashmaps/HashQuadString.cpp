@@ -45,16 +45,18 @@ public:
      * @param usuario El User a ser insertado.
      */
     void insert(std::string key, User usuario) {
-        size_t index = hash(key);
-        size_t originalIndex = index;
+        size_t index = hash(key); //Obtenemos el índice de la tabla
+        size_t originalIndex = index; //Guardamos el índice original
         int count = 0;
-
+        //Buscamos un lugar vacío en la tabla
         do {
+            //Si encontramos un lugar vacío, insertamos el par key-usuario
             if (table[index].first == "" || table[index].first == "-1") {
                 table[index] = {key, usuario};
                 return;
             }
 
+            //Si no encontramos un lugar vacío, seguimos buscando con quadratic hashing
             count++;
             index = (index + count*count) % table.size();
         } while (count < table.size() && index != originalIndex);
@@ -67,15 +69,18 @@ public:
      * @return True si la key es encontrada, False en otro caso.
      */
     bool search(std::string key, User& usuario) const {
-        size_t index = hash(key);
-        size_t originalIndex = index;
+        size_t index = hash(key); //Obtenemos el índice de la tabla
+        size_t originalIndex = index; //Guardamos el índice original
         int count = 0;
 
+        //Buscamos la key en la tabla
         do {
+            //Si encontramos la key, retornamos true y guardamos el usuario en el argumento
             if (table[index].first == key) {
                 usuario = table[index].second;
                 return true;
             }
+            //Si no encontramos la key, seguimos buscando con quadratic hashing
             count++;
             index = (index + count*count) % table.size();
         } while (table[index].first != key && count < table.size());
@@ -89,15 +94,18 @@ public:
      * @return True si la key es encontrada y eliminada, False en otro caso.
      */
     bool remove(std::string key) {
-        size_t index = hash(key);
-        size_t originalIndex = index;
+        size_t index = hash(key); //Obtenemos el índice de la tabla
+        size_t originalIndex = index; //Guardamos el índice original
         int count = 0;
 
+        //Buscamos la key en la tabla
         do {
+            //Si encontramos la key, la eliminamos y retornamos true
             if (table[index].first == key) {
                 table[index].first = "-1";
                 return true;
             }
+            //Si no encontramos la key, seguimos buscando con quadratic hashing
             count++;
             index = (index + count*count) % table.size();
         } while (table[index].first != key && count < table.size());
