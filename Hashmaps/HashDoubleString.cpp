@@ -5,11 +5,23 @@
 #include <chrono>
 #include "User.cpp"
 
+/**
+ * @class HashDoubleString
+ * @brief Una implementacion de una tabla hash, usando double hashing con una key string.
+ * 
+ * Esta clase representa una tabla hash que guarda pares, donde el primero es la key y el segundo es un objeto User.
+ * Ocupa double hashing como la estrategia de resolucion de colisiones.
+ */
 class HashDoubleString {
 private:
-    std::vector<std::pair<std::string,User>> table;
-    size_t table_size;
+    std::vector<std::pair<std::string,User>> table; /**< El vector que almacena los pares key-User. */
+    size_t table_size; /**< El tamaño de la tabla hash. >*/
 
+/**
+     * @brief Primera funcion hash que crea un hash_value que empieza en 0 donde para cada caracter en la string key multiplica el hash_value por 33 y le suma el valor ascii del caracter, al resultado final le aplica el modulo con el tamaño de la tabla.
+     * @param key La key a la que se le hará hash.
+     * @return El valor hash.
+     */
     size_t hash1(const std::string& key) const {
         size_t hash_value = 0;
         for (char ch : key) {
@@ -18,6 +30,11 @@ private:
         return hash_value % table_size;
     }
 
+    /**
+     * @brief Segunda funcion hash que crea un hash_value que empieza en 0 donde para cada caracter en la string key multiplica el hash_value por 17 y le suma el valor ascii del caracter, al resultado final le aplica el modulo con el tamaño de la tabla - 1 y al total le suma 1.
+     * @param key La key a la que se le hará hash.
+     * @return El valor hash.
+     */
     size_t hash2(const std::string& key) const {
         size_t hash_value = 0;
         for (char ch : key) {
@@ -27,10 +44,19 @@ private:
     }
 
 public:
+    /**
+     * @brief Construye un objeto de HashDoubleString con el tamaño especificado.
+     * @param size EL tamaño de la tabla hash.
+     */
     HashDoubleString(size_t size) : table_size(size) {
         table.resize(size);
     }
 
+    /**
+     * @brief Inserta un par key-User a la tabla hash.
+     * @param key La key a ser insertada.
+     * @param usuario El User a ser insertado.
+     */
     void insert(std::string key, User usuario) {
         size_t index = hash1(key);
         size_t step = hash2(key);
@@ -40,6 +66,12 @@ public:
         table[index] = {key, usuario};
     }
 
+    /**
+     * @brief Busca por la key en la tabla hash y sobreescribe el Usuario entregado en el argumento con el usuario encontrado en la tabla hash.
+     * @param key La key que será buscada.
+     * @param usuario El objeto User para guardar el resultado.
+     * @return True si la key es encontrada, False en otro caso.
+     */
     bool search(std::string key, User& usuario) const {
         size_t index = hash1(key);
         size_t step = hash2(key);
@@ -53,6 +85,11 @@ public:
         return false;
     }
 
+    /**
+     * @brief Elimina un par key-User de la tabla hash.
+     * @param key La key que será removida.
+     * @return True si la key es encontrada y eliminada, False en otro caso.
+     */
     bool remove(std::string key) {
         size_t index = hash1(key);
         size_t step = hash2(key);

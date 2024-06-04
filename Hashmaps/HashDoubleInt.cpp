@@ -20,7 +20,7 @@ private:
     /**
      * @brief Funcion hash que retorna el modulo de la key con el tamaño de la tabla.
      * @param key La key a la que se le hará hash.
-     * @return EL valor hash.
+     * @return El valor hash.
      */
     size_t hash(int key) const {
         return key % table_size;
@@ -69,7 +69,7 @@ private:
 public:
     /**
      * @brief Construye un objeto de HashDoubleInt con el tamaño especificado.
-     * @param size EL tamaño de la tabla hash.
+     * @param size El tamaño de la tabla hash.
      */
     HashDoubleInt(size_t size) : table_size(size) {
         table.resize(size);
@@ -81,7 +81,7 @@ public:
      * @param usuario EL User a ser insertado.
      */
     void insert(int key, User usuario) {
-        size_t index = hash(key);
+        size_t index = hash(key); //Obtenemos el índice de la tabla
         int count = 0;
         while (table[index].first != 0 && table[index].first != -1) {
             index = (hash(index) + count++*hash2(index)) % table_size; 
@@ -90,7 +90,7 @@ public:
     }
     
     /**
-     * @brief Busca por la key en la tabla hash y sobreescribe el Usuario entregado en el argumento con el usuario encontrad en la tabla hash.
+     * @brief Busca por la key en la tabla hash y sobreescribe el Usuario entregado en el argumento con el usuario encontrado en la tabla hash.
      * @param key La key que será buscada.
      * @param usuario EL objeto User para guardar el resultado.
      * @return True si la key es encontrada, False en otro caso.
@@ -110,7 +110,7 @@ public:
 
     /**
      * @brief Elimina un par key-User de la tabla hash.
-     * @param key La kehy que será removida.
+     * @param key La key que será removida.
      * @return True si la key es encontrada y eliminada, False en otro caso.
      */
     bool remove(int key) {
