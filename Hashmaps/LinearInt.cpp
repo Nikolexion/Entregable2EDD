@@ -22,7 +22,7 @@ public:
     void insert(int key, User usuario) {
         size_t index = hash(key);
 
-        while (table[index].first != 0) {
+        while (table[index].first != 0 && table[index].first != -1) {
             index = hash(index + 1);
         }
 
