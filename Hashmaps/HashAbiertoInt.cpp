@@ -14,14 +14,14 @@
 class HashAbiertoInt {
 private:
     std::vector<std::list<std::pair<int,User>>> table; /**< El vector que almacena los pares key-User. */
-    size_t table_size; /**< El tamaño de la tabla hash. >*/
+    unsigned long long table_size; /**< El tamaño de la tabla hash. >*/
 
     /**
      * @brief Funcion hash que retorna el modulo de la key con el tamaño de la tabla.
      * @param key La key a la que se le hará hash.
      * @return El valor hash.
      */
-    size_t hash(int key) const {
+    unsigned long long hash(unsigned long long key) const {
         return key % table_size;
     }
 
@@ -30,7 +30,7 @@ public:
      * @brief Construye un objeto de HashAbiertoInt con el tamaño especificado.
      * @param size EL tamaño de la tabla hash.
      */
-    HashAbiertoInt(size_t size) : table_size(size) {
+    HashAbiertoInt(unsigned long long size) : table_size(size) {
         table.resize(size);
     }
 
@@ -40,7 +40,7 @@ public:
      * @param usuario EL User a ser insertado.
      */
     void insert(int key, User usuario) {
-        size_t index = hash(key); //Obtenemos el índice de la tabla
+        unsigned long long index = hash(key); //Obtenemos el índice de la tabla
         for (auto& pair : table[index]) { //Recorremos la lista en la posición index
             if (pair.first == key) { //Si la key ya existe, actualizamos el usuario
                 pair.second = usuario; 
@@ -56,8 +56,8 @@ public:
      * @param usuario EL objeto User para guardar el resultado.
      * @return True si la key es encontrada, False en otro caso.
      */
-    bool search(int key, User& usuario) const {
-        size_t index = hash(key); //Obtenemos el índice de la tabla
+    bool search(unsigned long long key, User& usuario) const {
+        unsigned long long index = hash(key); //Obtenemos el índice de la tabla
         for (const auto& pair : table[index]) { //Recorremos la lista en la posición index
             if (pair.first == key) {
                 usuario = pair.second;
@@ -72,8 +72,8 @@ public:
      * @param key La key que será removida.
      * @return True si la key es encontrada y eliminada, False en otro caso.
      */
-    bool remove(int key) {
-        size_t index = hash(key); //Obtenemos el índice de la tabla
+    bool remove(unsigned long long key) {
+        unsigned long long index = hash(key); //Obtenemos el índice de la tabla
         for (auto it = table[index].begin(); it != table[index].end(); ++it) { //Recorremos la lista en la posición index
             if (it->first == key) { //Si encontramos la key, la eliminamos
                 table[index].erase(it);

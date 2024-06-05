@@ -15,14 +15,14 @@
 class HashDoubleInt {
 private:
     std::vector<std::pair<int,User>> table; /**< El vector que almacena los pares key-User. */
-    size_t table_size; /**< El tamaño de la tabla hash. >*/
+    unsigned long long table_size; /**< El tamaño de la tabla hash. >*/
 
     /**
      * @brief Funcion hash que retorna el modulo de la key con el tamaño de la tabla.
      * @param key La key a la que se le hará hash.
      * @return El valor hash.
      */
-    size_t hash(int key) const {
+    unsigned long long hash(int key) const {
         return key % table_size;
     }
 
@@ -61,7 +61,7 @@ private:
      * @param key La key a la que se le hará hash.
      * @return EL valor hash.
      */
-    size_t hash2(int key) const {
+    unsigned long long hash2(int key) const {
         int prime = largestPrimeLessThan(table_size);
         return prime - (key % prime);
     }
@@ -71,7 +71,7 @@ public:
      * @brief Construye un objeto de HashDoubleInt con el tamaño especificado.
      * @param size El tamaño de la tabla hash.
      */
-    HashDoubleInt(size_t size) : table_size(size) {
+    HashDoubleInt(unsigned long long size) : table_size(size) {
         table.resize(size);
     }
 
@@ -81,7 +81,7 @@ public:
      * @param usuario EL User a ser insertado.
      */
     void insert(int key, User usuario) {
-        size_t index = hash(key); //Obtenemos el índice de la tabla
+        unsigned long long index = hash(key); //Obtenemos el índice de la tabla
         int count = 0;
         while (table[index].first != 0 && table[index].first != -1) {
             index = (hash(index) + count++*hash2(index)) % table_size; 
@@ -96,7 +96,7 @@ public:
      * @return True si la key es encontrada, False en otro caso.
      */
     bool search(int key, User& usuario) const {
-        size_t index = hash(key);
+        unsigned long long index = hash(key);
         int count = 1;
         while(table[index].first == 0 || table[index].first == -1){
             index = hash(hash(index) + count++*hash2(index));
@@ -114,7 +114,7 @@ public:
      * @return True si la key es encontrada y eliminada, False en otro caso.
      */
     bool remove(int key) {
-        size_t index = hash(key);
+        unsigned long long index = hash(key);
         int count = 1;
         while(table[index].first == 0 || table[index].first == -1){
             index = hash(hash(index) + count++*hash2(index));

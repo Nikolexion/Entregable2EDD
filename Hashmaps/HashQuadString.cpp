@@ -15,15 +15,15 @@
 class HashQuadString {
 private:
     std::vector<std::pair<std::string,User>> table; /**< El vector que almacena los pares key-User. */
-    size_t table_size; /**< El tamaño de la tabla hash. >*/
+    unsigned long long table_size; /**< El tamaño de la tabla hash. >*/
 
     /**
      * @brief Funcion hash que crea un hash_value que empieza en 0 donde para cada caracter en la string key multiplica el hash_value por 33 y le suma el valor ascii del caracter, al resultado final le aplica el modulo con el tamaño de la tabla.
      * @param key La key a la que se le hará hash.
      * @return El valor hash.
      */
-    size_t hash(const std::string& key) const {
-        size_t hash_value = 0;
+    unsigned long long hash(const std::string& key) const {
+        unsigned long long hash_value = 0;
         for (char ch : key) {
             hash_value = hash_value * 33 + ch;
         }
@@ -35,7 +35,7 @@ public:
      * @brief Construye un objeto de HashQuadString con el tamaño especificado.
      * @param size EL tamaño de la tabla hash.
      */
-    HashQuadString(size_t size) : table_size(size) {
+    HashQuadString(unsigned long long size) : table_size(size) {
         table.resize(size);
     }
 
@@ -45,8 +45,8 @@ public:
      * @param usuario El User a ser insertado.
      */
     void insert(std::string key, User usuario) {
-        size_t index = hash(key); //Obtenemos el índice de la tabla
-        size_t originalIndex = index; //Guardamos el índice original
+        unsigned long long index = hash(key); //Obtenemos el índice de la tabla
+        unsigned long long originalIndex = index; //Guardamos el índice original
         int count = 0;
         //Buscamos un lugar vacío en la tabla
         do {
@@ -69,8 +69,8 @@ public:
      * @return True si la key es encontrada, False en otro caso.
      */
     bool search(std::string key, User& usuario) const {
-        size_t index = hash(key); //Obtenemos el índice de la tabla
-        size_t originalIndex = index; //Guardamos el índice original
+        unsigned long long index = hash(key); //Obtenemos el índice de la tabla
+        unsigned long long originalIndex = index; //Guardamos el índice original
         int count = 0;
 
         //Buscamos la key en la tabla
@@ -94,8 +94,8 @@ public:
      * @return True si la key es encontrada y eliminada, False en otro caso.
      */
     bool remove(std::string key) {
-        size_t index = hash(key); //Obtenemos el índice de la tabla
-        size_t originalIndex = index; //Guardamos el índice original
+        unsigned long long index = hash(key); //Obtenemos el índice de la tabla
+        unsigned long long originalIndex = index; //Guardamos el índice original
         int count = 0;
 
         //Buscamos la key en la tabla

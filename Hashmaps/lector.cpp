@@ -24,7 +24,7 @@ std::vector<User> readCSV(const std::string& filename) {
 
         if (tokens.size() == 7) {
             std::string university = tokens[0];
-            int userID = std::stoll(tokens[1]); // Use std::stoll for long long int
+            unsigned long long userID = std::stoll(tokens[1]); // Use std::stoll for long long int
             std::string userName = tokens[2];
             int numberTweets = std::stoi(tokens[3]);
             int friendsCount = std::stoi(tokens[4]);
