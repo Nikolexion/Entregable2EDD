@@ -6,6 +6,12 @@
 #include <chrono>
 #include "HashAbiertoString.cpp"
 #include "HashAbiertoInt.cpp"
+#include "HashDoubleInt.cpp"
+#include "HashDoubleString.cpp"
+#include "HashLinearInt.cpp"
+#include "HashLinearString.cpp"
+#include "HashQuadInt.cpp"
+#include "HashQuadString.cpp"
 
 // Función para leer el archivo CSV y retornar un vector de User
 std::vector<User> readCSV(const std::string& filename) {
