@@ -1,10 +1,15 @@
+#ifndef INCLUDES
+#define INCLUDES
 #include <iostream>
 #include <vector>
 #include <list>
 #include <utility>
-#include <chrono>
+#include <string>
 #include "User.h"
+#endif
 
+#ifndef HASH_QUAD_STRING
+#define HASH_QUAD_STRING
 /**
  * @class HashQuadString
  * @brief Una implementacion de una tabla hash, usando quadratic hashing con una key string.
@@ -113,3 +118,5 @@ public:
         return false;
     }
 };
+
+#endif

@@ -1,10 +1,16 @@
+#ifndef INCLUDES
+#define INCLUDES
 #include <iostream>
 #include <vector>
 #include <list>
+#include <utility>
 #include <string>
-#include <chrono>
 #include "User.h"
+#endif
 
+
+#ifndef HASH_ABIERTO_STRING
+#define HASH_ABIERTO_STRING
 /**
  * @class HashAbiertoString
  * @brief Una implementacion de una tabla hash, usando hashing abierto con una key string.
@@ -88,3 +94,5 @@ public:
         return false;
     }
 };
+
+#endif

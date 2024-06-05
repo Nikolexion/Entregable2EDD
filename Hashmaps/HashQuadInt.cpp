@@ -1,10 +1,15 @@
+#ifndef INCLUDES
+#define INCLUDES
 #include <iostream>
 #include <vector>
 #include <list>
 #include <utility>
-#include <chrono>
+#include <string>
 #include "User.h"
+#endif
 
+#ifndef HASH_QUAD_INT
+#define HASH_QUAD_INT
 /**
  * @class HashQuadInt
  * @brief Una implementacion de una tabla hash, usando quadratic hashing con una key entera.
@@ -97,3 +102,5 @@ public:
         return false;
     }
 };
+
+#endif

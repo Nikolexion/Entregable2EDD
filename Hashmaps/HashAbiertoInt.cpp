@@ -1,9 +1,16 @@
+#ifndef INCLUDES
+#define INCLUDES
 #include <iostream>
 #include <vector>
 #include <list>
 #include <utility>
-#include <chrono>
+#include <string>
 #include "User.h"
+#endif
+
+
+#ifndef HASH_ABIERTO_INT
+#define HASH_ABIERTO_INT
 /**
  * @class HashAbiertoInt
  * @brief Una implementacion de una tabla hash, usando hasing abierto con una key entera.
@@ -39,7 +46,7 @@ public:
      * @param key La key a ser insertada.
      * @param usuario EL User a ser insertado.
      */
-    void insert(int key, User usuario) {
+    void insert(unsigned long long key, User usuario) {
         unsigned long long index = hash(key); //Obtenemos el índice de la tabla
         for (auto& pair : table[index]) { //Recorremos la lista en la posición index
             if (pair.first == key) { //Si la key ya existe, actualizamos el usuario
@@ -83,3 +90,5 @@ public:
         return false;
     }
 };
+
+#endif

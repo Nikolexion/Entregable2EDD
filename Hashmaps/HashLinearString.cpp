@@ -1,10 +1,15 @@
+#ifndef INCLUDES
+#define INCLUDES
 #include <iostream>
 #include <vector>
 #include <list>
 #include <utility>
-#include <chrono>
+#include <string>
 #include "User.h"
+#endif
 
+#ifndef HASH_LINEAR_STRING
+#define HASH_LINEAR_STRING
 /**
  * @class HashLinearString
  * @brief Una implementacion de una tabla hash, usando linear hashing con una key string.
@@ -101,3 +106,5 @@ public:
         return false;
         }
 };
+
+#endif

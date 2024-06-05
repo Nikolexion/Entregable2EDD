@@ -1,10 +1,15 @@
+#ifndef INCLUDES
+#define INCLUDES
 #include <iostream>
 #include <vector>
 #include <list>
 #include <utility>
-#include <chrono>
+#include <string>
 #include "User.h"
+#endif
 
+#ifndef HASH_DOUBLE_INT
+#define HASH_DOUBLE_INT
 /**
  * @class HashDoubleInt
  * @brief Una implementacion de una tabla hash, usando double hashing con una key entera.
@@ -126,3 +131,5 @@ public:
         return false;
     }
 };
+
+#endif
