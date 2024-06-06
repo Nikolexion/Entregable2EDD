@@ -13,7 +13,7 @@
 #include "HashQuadInt.cpp"
 #include "HashQuadString.cpp"
 
-// Función para leer el archivo CSV y retornar un vector de User
+// FunciÃ³n para leer el archivo CSV y retornar un vector de User
 std::vector<User> readCSV(const std::string& filename) {
     std::vector<User> users;
     std::ifstream file(filename);
@@ -48,21 +48,21 @@ std::vector<User> readCSV(const std::string& filename) {
 int main(int argc, char** argv) {
     std::vector<User> users = readCSV("universities_followers.csv");
 
-    // Si no hay suficientes argumentos, terminamos la ejecución
+    // Si no hay suficientes argumentos, terminamos la ejecuciÃ³n
     if(argc < 2) {
         std::cerr << "Usage: " << argv[0] << " <cantidad de elementos>" << std::endl;
         exit(1);
     }
 
-    int n = atoi(argv[1]); // Almacenará la cantidad de elementos
+    int n = atoi(argv[1]); // AlmacenarÃ¡ la cantidad de elementos
 
     // Abrimos el archivo .csv en modo de escritura
     std::ofstream file("resultados.csv");
     file << "Test;Elementos;Operacion;Tiempo\n"; // Escribimos la cabecera del archivo .csv
 
     // Realizamos las pruebas varias veces
-    for (int test = 1; test <= 2; test++) {
-        HashDoubleInt hashTable(n); // Crearemos una tabla de hash con n elementos
+    for (int test = 1; test <= 30; test++) {
+        HashAbiertoInt hashTable(n); // Crearemos una tabla de hash con n elementos
 
         // Creamos n usuarios y los insertamos en la tabla hash
         auto start = std::chrono::high_resolution_clock::now();
@@ -82,10 +82,11 @@ int main(int argc, char** argv) {
         end = std::chrono::high_resolution_clock::now();
         unsigned long long search_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 
-        // Eliminamos cada usuario de la tabla hash
+        // Buscamos de usuario inecistentes en la tabla hash
         start = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= n; i++) {
-            hashTable.remove(i);
+        	User user = users[i];
+            hashTable.search(-user.userID, user);
         }
         end = std::chrono::high_resolution_clock::now();
         unsigned long long remove_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
@@ -93,7 +94,7 @@ int main(int argc, char** argv) {
         // Escribimos los resultados en el archivo .csv
         file << "HashAbiertoInt" << ";" << n << ";insert;" << insert_time << "\n";
         file << "HashAbiertoInt" << ";" << n << ";search;" << search_time << "\n";
-        file << "HashAbiertoInt" << ";" << n << ";remove;" << remove_time << "\n";
+        file << "HashAbiertoInt" << ";" << n << ";search_nouser;" << remove_time << "\n";
     }
 
     
