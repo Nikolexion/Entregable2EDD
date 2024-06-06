@@ -61,8 +61,8 @@ int main(int argc, char** argv) {
     file << "Test;Elementos;Operacion;Tiempo\n"; // Escribimos la cabecera del archivo .csv
 
     // Realizamos las pruebas varias veces
-    for (int test = 1; test <= 10; test++) {
-        HashAbiertoInt hashTable(n); // Crearemos una tabla de hash con n elementos
+    for (int test = 1; test <= 2; test++) {
+        HashDoubleInt hashTable(n); // Crearemos una tabla de hash con n elementos
 
         // Creamos n usuarios y los insertamos en la tabla hash
         auto start = std::chrono::high_resolution_clock::now();
@@ -91,11 +91,12 @@ int main(int argc, char** argv) {
         unsigned long long remove_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 
         // Escribimos los resultados en el archivo .csv
-        file << test << ";" << n << ";insert;" << insert_time << "\n";
-        file << test << ";" << n << ";search;" << search_time << "\n";
-        file << test << ";" << n << ";remove;" << remove_time << "\n";
+        file << "HashAbiertoInt" << ";" << n << ";insert;" << insert_time << "\n";
+        file << "HashAbiertoInt" << ";" << n << ";search;" << search_time << "\n";
+        file << "HashAbiertoInt" << ";" << n << ";remove;" << remove_time << "\n";
     }
 
+    
     file.close(); // Cerramos el archivo .csv
     return 0;
 }

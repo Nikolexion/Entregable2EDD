@@ -85,11 +85,12 @@ public:
      * @param key La key a ser insertada.
      * @param usuario EL User a ser insertado.
      */
-    void insert(int key, User usuario) {
+    void insert(unsigned long long key, User usuario) {
         unsigned long long index = hash(key); //Obtenemos el índice de la tabla
-        int count = 0;
+        unsigned long long count = 0;
         while (table[index].first != 0 && table[index].first != -1) {
             index = (hash(index) + count++*hash2(index)) % table_size; 
+            if (count > table_size) return; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna (no se encuentra en la tabla
         }
         table[index] = {key, usuario};
     }
@@ -102,9 +103,10 @@ public:
      */
     bool search(int key, User& usuario) const {
         unsigned long long index = hash(key);
-        int count = 1;
+        unsigned long long count = 1;
         while(table[index].first == 0 || table[index].first == -1){
             index = hash(hash(index) + count++*hash2(index));
+            if (count > table_size) return false; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna false (no se encuentra en la tabla
         }
         if (table[index].first == key) {
             usuario = table[index].second;
@@ -120,9 +122,10 @@ public:
      */
     bool remove(int key) {
         unsigned long long index = hash(key);
-        int count = 1;
+        unsigned long long count = 1;
         while(table[index].first == 0 || table[index].first == -1){
             index = hash(hash(index) + count++*hash2(index));
+            if (count > table_size) return false; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna false (no se encuentra en la tabla
         }
         if (table[index].first == key) {
             table[index].first = -1;

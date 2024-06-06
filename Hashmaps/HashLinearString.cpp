@@ -52,7 +52,7 @@ public:
     void insert(std::string key, User usuario) {
         unsigned long long index = hash(key);
         unsigned long long originalIndex = index;
-        int count = 0;
+        unsigned long long count = 0;
         do {
             if (table[index].first == "" || table[index].first == "-1") {
                 table[index] = {key, usuario};
@@ -60,6 +60,7 @@ public:
             }
             count++;
             index = (index + count) % table.size();
+            if (count > table_size) return; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna (no se encuentra en la tabla)
         } while (index != originalIndex);
     }
 
@@ -72,7 +73,7 @@ public:
     bool search(std::string key, User& usuario) const {
         unsigned long long index = hash(key);
         unsigned long long originalIndex = index;
-        int count = 0;
+        unsigned long long count = 0;
         do {
             if (table[index].first == key) {
                 usuario = table[index].second;
@@ -80,6 +81,7 @@ public:
             }
             count++;
             index = (index + count) % table.size();
+            if (count > table_size) return false; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna false (no se encuentra en la tabla)
         } while (table[index].first != "" && index != originalIndex);
 
         return false;
@@ -93,7 +95,7 @@ public:
     bool remove(std::string key) {
         unsigned long long index = hash(key);
         unsigned long long originalIndex = index;
-        int count = 0;
+        unsigned long long count = 0;
         do {
             if (table[index].first == key) {
                 table[index].first = "-1";
@@ -101,6 +103,7 @@ public:
             }
             count++;
             index = (index + count) % table.size();
+            if (count > table_size) return false; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna false (no se encuentra en la tabla)
         } while (table[index].first != "" && index != originalIndex);
 
         return false;

@@ -52,7 +52,7 @@ public:
     void insert(std::string key, User usuario) {
         unsigned long long index = hash(key); //Obtenemos el índice de la tabla
         unsigned long long originalIndex = index; //Guardamos el índice original
-        int count = 0;
+        unsigned long long count = 0;
         //Buscamos un lugar vacío en la tabla
         do {
             //Si encontramos un lugar vacío, insertamos el par key-usuario
@@ -64,6 +64,7 @@ public:
             //Si no encontramos un lugar vacío, seguimos buscando con quadratic hashing
             count++;
             index = (index + count*count) % table.size();
+            if (count > table_size) return; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna (no se encuentra en la tabla)
         } while (count < table.size() && index != originalIndex);
     }
 
@@ -76,7 +77,7 @@ public:
     bool search(std::string key, User& usuario) const {
         unsigned long long index = hash(key); //Obtenemos el índice de la tabla
         unsigned long long originalIndex = index; //Guardamos el índice original
-        int count = 0;
+        unsigned long long count = 0;
 
         //Buscamos la key en la tabla
         do {
@@ -88,6 +89,7 @@ public:
             //Si no encontramos la key, seguimos buscando con quadratic hashing
             count++;
             index = (index + count*count) % table.size();
+            if (count > table_size) return false; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna false (no se encuentra en la tabla)
         } while (table[index].first != key && count < table.size());
 
         return false;
@@ -101,7 +103,7 @@ public:
     bool remove(std::string key) {
         unsigned long long index = hash(key); //Obtenemos el índice de la tabla
         unsigned long long originalIndex = index; //Guardamos el índice original
-        int count = 0;
+        unsigned long long count = 0;
 
         //Buscamos la key en la tabla
         do {
@@ -113,6 +115,7 @@ public:
             //Si no encontramos la key, seguimos buscando con quadratic hashing
             count++;
             index = (index + count*count) % table.size();
+            if (count > table_size) return false; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna false (no se encuentra en la tabla)
         } while (table[index].first != key && count < table.size());
 
         return false;
