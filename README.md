@@ -1,6 +1,8 @@
 # Entregable 2 Estructura de Datos
 **Table of Contents**
 
+[TOCM]
+
 [TOC]
 
 ## Tipos de tablas hash implementadas
