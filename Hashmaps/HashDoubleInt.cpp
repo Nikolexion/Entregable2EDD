@@ -89,7 +89,8 @@ public:
         unsigned long long index = hash(key); //Obtenemos el índice de la tabla
         unsigned long long count = 0;
         while (table[index].first != 0 && table[index].first != -1) {
-            index = (hash(index) + count++*hash2(index)) % table_size; 
+            count++;
+            index = (hash(index) + count*hash2(index)) % table_size; 
             if (count > table_size) return; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna (no se encuentra en la tabla
         }
         table[index] = {key, usuario};
@@ -105,7 +106,8 @@ public:
         unsigned long long index = hash(key);
         unsigned long long count = 1;
         while(table[index].first == 0 || table[index].first == -1){
-            index = hash(hash(index) + count++*hash2(index));
+            count++;
+            index = hash(hash(index) + count*hash2(index));
             if (count > table_size) return false; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna false (no se encuentra en la tabla
         }
         if (table[index].first == key) {

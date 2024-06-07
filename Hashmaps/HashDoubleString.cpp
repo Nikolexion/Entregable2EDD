@@ -64,9 +64,11 @@ public:
      */
     void insert(std::string key, User usuario) {
         unsigned long long index = hash1(key);
-        unsigned long long count = hash2(key);
+        unsigned long long index2 = hash2(key);
+        unsigned long long count = 0;
         while (table[index].first != "" && table[index].first != "-1") {
-            index = (index + count) % table.size();
+            count++;
+            index = (index + count*index2) % table.size();
             if (count > table_size) return ; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna (no se encuentra en la tabla
         }
         table[index] = {key, usuario};
@@ -80,9 +82,11 @@ public:
      */
     bool search(std::string key, User& usuario) const {
         unsigned long long index = hash1(key);
-        unsigned long long count = hash2(key);
+        unsigned long long index2 = hash2(key);
+        unsigned long long count = 0;
         while (table[index].first != "" && table[index].first != key) {
-            index = (index + count) % table.size();
+            count++;
+            index = (index + count*index2) % table.size();
             if (count > table_size) return false; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna false (no se encuentra en la tabla)
         }
         if (table[index].first == key) {
@@ -99,9 +103,11 @@ public:
      */
     bool remove(std::string key) {
         unsigned long long index = hash1(key);
-        unsigned long long count = hash2(key);
+        unsigned long long index2 = hash2(key);
+        unsigned long long count = 0;
         while (table[index].first != "" && table[index].first != key) {
-            index = (index + count) % table.size();
+            count++;
+            index = (index + count*index2) % table.size();
             if (count > table_size) return false; //Si se ha recorrido toda la tabla y no se ha encontrado la key, se retorna false (no se encuentra en la tabla)
         }
         if (table[index].first == key) {

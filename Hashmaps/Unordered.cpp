@@ -1,19 +1,12 @@
+#include <unordered_map>
+#include <string>
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <string>
 #include <vector>
 #include <chrono>
-#include "HashAbiertoString.cpp"
-#include "HashAbiertoInt.cpp"
-#include "HashDoubleInt.cpp"
-#include "HashDoubleString.cpp"
-#include "HashLinearInt.cpp"
-#include "HashLinearString.cpp"
-#include "HashQuadInt.cpp"
-#include "HashQuadString.cpp"
+#include "User.h"
 
-// Función para leer el archivo CSV y retornar un vector de User
 std::vector<User> readCSV(const std::string& filename) {
     std::vector<User> users;
     std::ifstream file(filename);
@@ -45,9 +38,18 @@ std::vector<User> readCSV(const std::string& filename) {
     return users;
 }
 
-int main() {
+int main(int argc, char const *argv[])
+{
     std::vector<User> users = readCSV("universities_followers.csv");
 
+    std::unordered_map<std::string, User> hashTableN;
+    std::unordered_map<std::string, User> hashTableM;
+    std::unordered_map<std::string, User> hashTableO;
+    std::unordered_map<std::string, User> hashTableP;
+    std::unordered_map<std::string, User> hashTableQ;
+
+    std::ofstream file("resultados.csv");
+    file << "Test;Elementos;Operacion;Tiempo\n";
 
     int n = 10000; // Almacenará la cantidad de elementos
     int m = 15000;
@@ -55,23 +57,19 @@ int main() {
     int p = 1000;
     int q = 5000;
 
-    // Abrimos el archivo .csv en modo de escritura
-    std::ofstream file("resultados.csv");
-    file << "Test;Elementos;Operacion;Tiempo\n"; // Escribimos la cabecera del archivo .csv
-
-    // Realizamos las pruebas varias veces
     for (int test = 1; test <= 30; test++) {
-        HashDoubleInt hashTableN(n); // Crearemos una tabla de hash con n elementos
-        HashDoubleInt hashTableM(m);
-        HashDoubleInt hashTableO(o);
-        HashDoubleInt hashTableP(p);
-        HashDoubleInt hashTableQ(q);
+        hashTableN.clear();
+        hashTableM.clear();
+        hashTableO.clear();
+        hashTableP.clear();
+        hashTableQ.clear();
+
         std::cout << "Inicio del test " << test << std::endl;
 
         auto startP = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= p; i++) {
             User user = users[i];
-            hashTableP.insert(user.userID, user);
+            hashTableP.insert({user.userName, user});
         }
         auto endP = std::chrono::high_resolution_clock::now();
         unsigned long long insert_timeP = std::chrono::duration_cast<std::chrono::nanoseconds>(endP - startP).count();
@@ -80,7 +78,7 @@ int main() {
         startP = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= p; i++) {
             User user = users[i];
-            hashTableP.search(user.userID, user);
+            hashTableP.find(user.userName);
         }
         endP = std::chrono::high_resolution_clock::now();
         unsigned long long search_timeP = std::chrono::duration_cast<std::chrono::nanoseconds>(endP - startP).count();
@@ -89,22 +87,22 @@ int main() {
         startP = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= p; i++) {
             User user = User("",-i,"",0,0,0,"");
-            hashTableP.search(user.userID, user);
+            hashTableP.find(user.userName);
         }
         endP = std::chrono::high_resolution_clock::now();
         unsigned long long remove_timeP = std::chrono::duration_cast<std::chrono::nanoseconds>(endP - startP).count();
 
         // Escribimos los resultados en el archivo .csv
-        file <<"HashDoubleInt" << ";" << p << ";insert;" << insert_timeP << "\n";
-        file <<"HashDoubleInt" << ";" << p << ";search;" << search_timeP << "\n";
-        file <<"HashDoubleInt" << ";" << p << ";search_nouser;" << remove_timeP << "\n";
+        file <<"std::unordered_map" << ";" << p << ";insert;" << insert_timeP << "\n";
+        file <<"std::unordered_map" << ";" << p << ";search;" << search_timeP << "\n";
+        file <<"std::unordered_map" << ";" << p << ";search_nouser;" << remove_timeP << "\n";
         std::cout << "Fin test "<< p << " "<< test << std::endl;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         auto startQ = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= q; i++) {
             User user = users[i];
-            hashTableQ.insert(user.userID, user);
+            hashTableQ.insert({user.userName, user});
         }
         auto endQ = std::chrono::high_resolution_clock::now();
         unsigned long long insert_timeQ = std::chrono::duration_cast<std::chrono::nanoseconds>(endQ - startQ).count();
@@ -113,7 +111,7 @@ int main() {
         startQ = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= q; i++) {
             User user = users[i];
-            hashTableQ.search(user.userID, user);
+            hashTableQ.find(user.userName);
         }
         endQ = std::chrono::high_resolution_clock::now();
         unsigned long long search_timeQ = std::chrono::duration_cast<std::chrono::nanoseconds>(endQ - startQ).count();
@@ -122,7 +120,7 @@ int main() {
         startQ = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= q; i++) {
             User user = User("",-i,"",0,0,0,"");
-            hashTableQ.search(user.userID, user);
+            hashTableQ.find(user.userName);
         }
         endQ = std::chrono::high_resolution_clock::now();
         unsigned long long remove_timeQ = std::chrono::duration_cast<std::chrono::nanoseconds>(endQ - startQ).count();
@@ -138,7 +136,7 @@ int main() {
         auto start = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= n; i++) {
             User user = users[i];
-            hashTableN.insert(user.userID, user);
+            hashTableN.insert({user.userName, user});
         }
         auto end = std::chrono::high_resolution_clock::now();
         unsigned long long insert_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
@@ -147,7 +145,7 @@ int main() {
         start = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= n; i++) {
             User user = users[i];
-            hashTableN.search(user.userID, user);
+            hashTableN.find(user.userName);
         }
         end = std::chrono::high_resolution_clock::now();
         unsigned long long search_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
@@ -156,7 +154,7 @@ int main() {
         start = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= n; i++) {
             User user = User("",-i,"",0,0,0,"");
-            hashTableN.search(user.userID, user);
+            hashTableN.find(user.userName);
         }
         end = std::chrono::high_resolution_clock::now();
         unsigned long long remove_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
@@ -171,7 +169,7 @@ int main() {
         auto startM = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= m; i++) {
             User user = users[i];
-            hashTableM.insert(user.userID, user);
+            hashTableM.insert({user.userName, user});
         }
         auto endM = std::chrono::high_resolution_clock::now();
         unsigned long long insert_timeM = std::chrono::duration_cast<std::chrono::nanoseconds>(endM - startM).count();
@@ -180,7 +178,7 @@ int main() {
         startM = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= m; i++) {
             User user = users[i];
-            hashTableM.search(user.userID, user);
+            hashTableM.find(user.userName);
         }
         endM = std::chrono::high_resolution_clock::now();
         unsigned long long search_timeM = std::chrono::duration_cast<std::chrono::nanoseconds>(endM - startM).count();
@@ -189,7 +187,7 @@ int main() {
         startM = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= m; i++) {
             User user = User("",-i,"",0,0,0,"");
-            hashTableM.search(user.userID, user);
+            hashTableM.find(user.userName);
         }
         endM = std::chrono::high_resolution_clock::now();
         unsigned long long remove_timeM = std::chrono::duration_cast<std::chrono::nanoseconds>(endM - startM).count();
@@ -204,7 +202,7 @@ int main() {
         auto startO = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= o; i++) {
             User user = users[i];
-            hashTableO.insert(user.userID, user);
+            hashTableO.insert({user.userName, user});
         }
         auto endO = std::chrono::high_resolution_clock::now();
         unsigned long long insert_timeO = std::chrono::duration_cast<std::chrono::nanoseconds>(endO - startO).count();
@@ -213,7 +211,7 @@ int main() {
         startO = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= o; i++) {
             User user = users[i];
-            hashTableO.search(user.userID, user);
+            hashTableO.find(user.userName);
         }
         endO = std::chrono::high_resolution_clock::now();
         unsigned long long search_timeO = std::chrono::duration_cast<std::chrono::nanoseconds>(endO - startO).count();
@@ -222,7 +220,7 @@ int main() {
         startO = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= o; i++) {
             User user = User("",-i,"",0,0,0,"");
-            hashTableO.search(user.userID, user);
+            hashTableO.find(user.userName);
         }
         endO = std::chrono::high_resolution_clock::now();
         unsigned long long remove_timeO = std::chrono::duration_cast<std::chrono::nanoseconds>(endO - startO).count();
@@ -236,5 +234,6 @@ int main() {
 
     
     file.close(); // Cerramos el archivo .csv
+
     return 0;
 }
