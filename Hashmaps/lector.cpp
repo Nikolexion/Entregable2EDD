@@ -13,7 +13,7 @@
 #include "HashQuadInt.cpp"
 #include "HashQuadString.cpp"
 
-// Función para leer el archivo CSV y retornar un vector de User
+// FunciÃ³n para leer el archivo CSV y retornar un vector de User
 std::vector<User> readCSV(const std::string& filename) {
     std::vector<User> users;
     std::ifstream file(filename);
@@ -152,7 +152,7 @@ int main() {
         end = std::chrono::high_resolution_clock::now();
         unsigned long long search_time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 
-        // Eliminamos cada usuario de la tabla hash
+        // Buscamos de usuario inecistentes en la tabla hash
         start = std::chrono::high_resolution_clock::now();
         for(int i = 1; i <= n; i++) {
             User user = User("",-i,"",0,0,0,"");
