@@ -94,6 +94,19 @@ public:
         }
         return false;
     }
+
+    
+    /**
+     * @brief Devuelve el tamaño total en bytes de la tabla hash.
+     * @return El tamaño total en bytes de la tabla hash.
+     */
+    unsigned long long totalSizeInBytes() const {
+        unsigned long long totalSize = 0;
+        for (unsigned long long i = 0; i < table_size; ++i) {
+            totalSize += sizeof(table[i]);
+        }
+        return totalSize;
+    }
 };
 
 #endif
